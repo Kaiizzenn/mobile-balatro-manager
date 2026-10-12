@@ -28,11 +28,11 @@ jobs:
           cache: npm
           cache-dependency-path: ui/package-lock.json
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
-
       - name: Install Android platform 37
-        run: sdkmanager "platforms;android-37"
+        run: |
+          SDKM=$(ls -d "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager | head -1)
+          yes | "$SDKM" --licenses > /dev/null || true
+          "$SDKM" "platforms;android-37"
 
       - name: Set up Gradle 9.5.0
         uses: gradle/actions/setup-gradle@v5
